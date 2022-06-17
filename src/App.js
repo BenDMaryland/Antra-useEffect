@@ -10,23 +10,30 @@ const style = {
 
 function App() {
   const [isAlert, setIsAlert] = useState(false)
+  const [reset, setReset] = useState(false)
 
   useEffect(() => {
-    console.log("Component did mount ")
-    isAlert && console.log("Component did Update")
+
+    isAlert ? console.log("Component did Update") : console.log("Component did mount ")
+
+    if (reset) {
+      console.log("hi")
+      setIsAlert(isAlert => false)
+      setReset(reset => false)
+    }
     return () => {
       console.log("Component will Unmount ")
       alert("component unmounted")
     }
-  }, [isAlert])
+  }, [isAlert, reset])
 
 
 
   return (
     <div className="App">
-
-      <button onClick={() => setIsAlert(isAlert => !isAlert)}> {isAlert ? "Updated" : "Mounted"}</button>
-      <div onMouseEnter={() => setIsAlert(isAlert => !isAlert)} style={style}>{isAlert ? "Updated" : "Mounted"}</div>
+      <button onClick={() => setReset(reset => true)}> reset</button>
+      <button onClick={() => setIsAlert(isAlert => true)}> {isAlert ? "Updated" : "Mounted"}</button>
+      <div onMouseEnter={() => setIsAlert(isAlert => true)} style={style}>{isAlert ? "Updated" : "Mounted"}</div>
     </div>
   );
 }
